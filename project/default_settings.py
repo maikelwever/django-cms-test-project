@@ -1,6 +1,7 @@
 import os
-
+gettext = lambda s: s
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+PROJECT_PATH = PROJECT_DIR
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'static'),
@@ -20,10 +21,10 @@ TEMPLATE_DIRS = (
 
 ADMINS = (
 # ('Your Name', 'your_email@example.com'),
+    ('Maikel Wever', 'maikelwever@gmail.com'),
 )
 
 MANAGERS = ADMINS
-
 
 TIME_ZONE = 'Europe/Amsterdam'
 
@@ -48,6 +49,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'cms.middleware.multilingual.MultilingualURLMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -58,10 +63,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-
-# required by grappelli, social registration, fiber.
-# 'django.core.context_processors.request',
-
+    'django.core.context_processors.request',
+    'cms.context_processors.media',
+    'sekizai.context_processors.sekizai',
+    'zinnia.context_processors.version',
 )
 
 ROOT_URLCONF = 'urls'
@@ -78,6 +83,21 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 # Project
 
+# django-cms
+    'cms',
+    'mptt',
+    'menus',
+    'south',
+    'sekizai',
+    'cms.plugins.text',
+    'cms.plugins.link',
+    'cms.plugins.picture',
+    'cms.plugins.video',
+    'cms.plugins.file',
+    'zinnia',
+    'tagging',
+    'zinnia.plugins',
+    'django.contrib.comments',
 # 3rd party
     'django_extensions',
     #'django.contrib.admindocs',
@@ -87,3 +107,13 @@ INSTALLED_APPS = (
 
 LOGIN_URL = "/user/login/"
 LOGIN_REDIRECT_URL = "/"
+
+CMS_TEMPLATES = (
+    ('template_1.html', 'Template One'),
+    ('template_2.html', 'Template Two'),
+)
+LANGUAGES = [
+    ('en', 'English'),
+]
+
+ZINNIA_ENTRY_BASE_MODEL = 'zinnia.plugins.placeholder.EntryPlaceholder'

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt')),
     url(r'^humans.txt', TemplateView.as_view(template_name='humans.txt')),
     url(r'^crossdomain.xml', TemplateView.as_view(template_name='crossdomain.xml')),
-    # This is your base URL:
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^weblog/', include('zinnia.urls')),
+    url(r'^comments/', include('django.contrib.comments.urls')),
+    url(r'^', include('cms.urls')),
 )
